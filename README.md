@@ -1,69 +1,72 @@
-# CodeIgniter 4 Application Starter
+# Famoleras TFA2 - POS System
 
-## What is CodeIgniter?
+## Description
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+This project is a basic Point-of-Sale (POS) system developed using CodeIgniter 4.
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+TFA2 extends the TFA1 project by replacing the static PHP arrays for Customer Accounts and User Accounts with data retrieved from a MySQL database.
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## Features
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+- Home page
+- About page
+- Customer Accounts page
+- User Accounts page
+- MySQL database connection
+- CustomerModel and UserModel
+- CodeIgniter Query Builder for retrieving records
 
-## Installation & updates
+## Requirements
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+- PHP
+- Composer
+- CodeIgniter 4
+- MySQL
+- XAMPP or another local PHP/MySQL environment
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+## Local Setup
 
-## Setup
+1. Place or clone the project on your computer.
+2. Start Apache and MySQL in XAMPP.
+3. Create a MySQL database named:
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+   `famoleras_pos`
 
-## Important Change with index.php
+4. Import the included database export:
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+   `famoleras_pos.sql`
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+5. Configure the database connection in the `.env` file.
 
-**Please** read the user guide for a better explanation of how CI4 works!
+Example local configuration:
 
-## Repository Management
+    database.default.hostname = localhost
+    database.default.database = famoleras_pos
+    database.default.username = root
+    database.default.password =
+    database.default.DBDriver = MySQLi
+    database.default.port = 3306
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+6. Open a terminal in the project directory and run:
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+   `php spark serve`
 
-## Server Requirements
+7. Open the application at:
 
-PHP version 8.2 or higher is required, with the following extensions installed:
+   `http://localhost:8080`
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+## Pages
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - The end of life date for PHP 8.1 was December 31, 2025.
-> - If you are still using below PHP 8.2, you should upgrade immediately.
-> - The end of life date for PHP 8.2 will be December 31, 2026.
+- `/` - Home
+- `/about` - About
+- `/customers` - Customer Accounts
+- `/users` - User Accounts
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+## Database Tables
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+The application uses two tables:
+
+- `customers`
+- `users`
+
+Customer and user records are retrieved through CodeIgniter Models using Query Builder.
