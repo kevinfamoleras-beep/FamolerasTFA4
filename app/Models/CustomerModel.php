@@ -19,8 +19,8 @@ class CustomerModel extends Model
     public function getCustomers()
     {
         return $this->builder()
-                    ->select('id, full_name, email, phone, created_at')
-                    ->get()
-                    ->getResultArray();
+            ->select('id, full_name, email, phone, created_at')
+            ->get()
+            ->getResultArray();
     }
 }

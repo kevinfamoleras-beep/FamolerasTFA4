@@ -12,14 +12,15 @@ class UserModel extends Model
     protected $allowedFields = [
         'username',
         'full_name',
-        'created_at'
+        'created_at',
+        'avatar'
     ];
 
     public function getUsers()
     {
         return $this->builder()
-                    ->select('id, username, full_name, created_at')
-                    ->get()
-                    ->getResultArray();
+            ->select('id, username, full_name, created_at, avatar')
+            ->get()
+            ->getResultArray();
     }
 }

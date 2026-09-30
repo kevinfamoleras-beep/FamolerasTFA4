@@ -1,20 +1,30 @@
-# Famoleras TFA2 - POS System
+# Famoleras TFA3 - POS System
 
 ## Description
 
-This project is a basic Point-of-Sale (POS) system developed using CodeIgniter 4.
+This project is a Point-of-Sale (POS) application developed using CodeIgniter 4 and MySQL.
 
-TFA2 extends the TFA1 project by replacing the static PHP arrays for Customer Accounts and User Accounts with data retrieved from a MySQL database.
+TFA3 extends TFA2 by adding customer and user account creation and editing, form validation, and user avatar upload with image preparation.
 
 ## Features
 
 - Home page
 - About page
-- Customer Accounts page
-- User Accounts page
-- MySQL database connection
-- CustomerModel and UserModel
-- CodeIgniter Query Builder for retrieving records
+- Customer Accounts listing
+- User Accounts listing
+- Create new customers
+- Edit existing customers
+- Customer form validation
+- Create new users
+- Edit existing users
+- Unique username validation
+- User avatar upload
+- JPG and PNG image validation
+- Maximum avatar upload size of 2 MB
+- Display-ready 300x300 avatar preparation
+- Placeholder display when a user has no avatar
+- MySQL database
+- CodeIgniter Models and Query Builder
 
 ## Requirements
 
@@ -22,23 +32,18 @@ TFA2 extends the TFA1 project by replacing the static PHP arrays for Customer Ac
 - Composer
 - CodeIgniter 4
 - MySQL
-- XAMPP or another local PHP/MySQL environment
+- PHP GD extension
+- XAMPP or another PHP/MySQL environment
 
 ## Local Setup
 
-1. Place or clone the project on your computer.
-2. Start Apache and MySQL in XAMPP.
-3. Create a MySQL database named:
+1. Clone or download the project.
+2. Start Apache and MySQL.
+3. Create a MySQL database named `famoleras_pos`.
+4. Import `famoleras_pos.sql`.
+5. Configure the database connection in `.env`.
 
-   `famoleras_pos`
-
-4. Import the included database export:
-
-   `famoleras_pos.sql`
-
-5. Configure the database connection in the `.env` file.
-
-Example local configuration:
+Example:
 
     database.default.hostname = localhost
     database.default.database = famoleras_pos
@@ -47,26 +52,34 @@ Example local configuration:
     database.default.DBDriver = MySQLi
     database.default.port = 3306
 
-6. Open a terminal in the project directory and run:
+6. Make sure the PHP GD extension is enabled.
+7. Open a terminal in the project folder.
+8. Run:
 
-   `php spark serve`
+    php spark serve
 
-7. Open the application at:
+9. Open:
 
-   `http://localhost:8080`
+    http://localhost:8080
 
-## Pages
+## Main Routes
 
 - `/` - Home
 - `/about` - About
 - `/customers` - Customer Accounts
+- `/customers/new` - New Customer
 - `/users` - User Accounts
+- `/users/new` - New User
 
-## Database Tables
+## Avatar Upload
 
-The application uses two tables:
+User avatars are uploaded through the User Edit page.
 
-- `customers`
-- `users`
+Accepted formats:
 
-Customer and user records are retrieved through CodeIgniter Models using Query Builder.
+- JPG/JPEG
+- PNG
+
+Maximum file size: 2 MB.
+
+Uploaded images are prepared as 300x300 display-ready images and stored in `public/uploads/avatars`. Only the avatar filename is stored in the database.
