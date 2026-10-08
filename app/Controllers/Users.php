@@ -24,9 +24,10 @@ class Users extends BaseController
     public function create()
     {
         $rules = [
-            'username'  => 'required|is_unique[users.username]',
-            'full_name' => 'required'
-        ];
+    'username'  => 'required|is_unique[users.username]',
+    'full_name' => 'required',
+    'password'  => 'required|min_length[8]'
+];
 
         if (!$this->validate($rules)) {
             return view('users_new', [
@@ -34,13 +35,15 @@ class Users extends BaseController
             ]);
         }
 
-        $userModel = new UserModel();
-
         $userModel->insert([
-            'username'   => $this->request->getPost('username'),
-            'full_name'  => $this->request->getPost('full_name'),
-            'created_at' => date('Y-m-d H:i:s')
-        ]);
+    'username'   => $this->request->getPost('username'),
+    'full_name'  => $this->request->getPost('full_name'),
+    'password'   => password_hash(
+        (string) $this->request->getPost('password'),
+        PASSWORD_DEFAULT
+    ),
+    'created_at' => date('Y-m-d H:i:s')
+]);
 
         return redirect()->to('/users');
     }

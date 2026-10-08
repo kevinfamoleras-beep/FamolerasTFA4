@@ -8,13 +8,17 @@
 <body>
 
 <nav>
-    <a href="/">Home</a>
-    <a href="/about">About</a>
-    <a href="/customers">Customer Accounts</a>
-    <a href="/users">User Accounts</a>
+    <a href="<?= site_url('/') ?>">Home</a>
+    <a href="<?= site_url('about') ?>">About</a>
+    <a href="<?= site_url('customers') ?>">Customer Accounts</a>
+    <a href="<?= site_url('users') ?>">User Accounts</a>
 </nav>
 
 <div class="container">
+    <form action="<?= site_url('logout') ?>" method="post">
+        <?= csrf_field() ?>
+        <button type="submit">Logout</button>
+    </form>
 
     <h1>Edit Customer</h1>
 
@@ -24,35 +28,32 @@
         </div>
     <?php endif; ?>
 
-    <form action="/customers/update/<?= $customer['id'] ?>" method="post">
-
+    <form action="<?= site_url('customers/update/' . $customer['id']) ?>"
+          method="post">
         <?= csrf_field() ?>
 
         <p>
             <label>Full Name</label><br>
-            <input type="text"
-                   name="full_name"
-                   value="<?= esc($customer['full_name']) ?>">
+            <input type="text" name="full_name"
+                   value="<?= esc(old('full_name', $customer['full_name'])) ?>"
+                   required>
         </p>
 
         <p>
             <label>Email</label><br>
-            <input type="email"
-                   name="email"
-                   value="<?= esc($customer['email']) ?>">
+            <input type="email" name="email"
+                   value="<?= esc(old('email', $customer['email'])) ?>"
+                   required>
         </p>
 
         <p>
             <label>Phone</label><br>
-            <input type="text"
-                   name="phone"
-                   value="<?= esc($customer['phone']) ?>">
+            <input type="text" name="phone"
+                   value="<?= esc(old('phone', $customer['phone'] ?? '')) ?>">
         </p>
 
         <button type="submit">Update Customer</button>
-
     </form>
-
 </div>
 
 </body>

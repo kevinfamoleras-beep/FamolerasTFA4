@@ -8,19 +8,21 @@
 <body>
 
 <nav>
-    <a href="/">Home</a>
-    <a href="/about">About</a>
-    <a href="/customers">Customer Accounts</a>
-    <a href="/users">User Accounts</a>
+    <a href="<?= site_url('/') ?>">Home</a>
+    <a href="<?= site_url('about') ?>">About</a>
+    <a href="<?= site_url('customers') ?>">Customer Accounts</a>
+    <a href="<?= site_url('users') ?>">User Accounts</a>
 </nav>
 
 <div class="container">
+    <form action="<?= site_url('logout') ?>" method="post">
+        <?= csrf_field() ?>
+        <button type="submit">Logout</button>
+    </form>
 
     <h1>Customer Accounts</h1>
 
-    <p>
-        <a href="/customers/new">Add New Customer</a>
-    </p>
+    <p><a href="<?= site_url('customers/new') ?>">Add New Customer</a></p>
 
     <table>
         <tr>
@@ -34,16 +36,15 @@
             <tr>
                 <td><?= esc($customer['full_name']) ?></td>
                 <td><?= esc($customer['email']) ?></td>
-                <td><?= esc($customer['phone']) ?></td>
+                <td><?= esc($customer['phone'] ?? '') ?></td>
                 <td>
-                    <a href="/customers/edit/<?= $customer['id'] ?>">
+                    <a href="<?= site_url('customers/edit/' . $customer['id']) ?>">
                         Edit
                     </a>
                 </td>
             </tr>
         <?php endforeach; ?>
     </table>
-
 </div>
 
 </body>

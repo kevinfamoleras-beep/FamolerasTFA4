@@ -1,85 +1,127 @@
-# Famoleras TFA3 - POS System
+# Famoleras TFA4 – POS Authentication System
 
-## Description
+## Project Description
 
 This project is a Point-of-Sale (POS) application developed using CodeIgniter 4 and MySQL.
 
-TFA3 extends TFA2 by adding customer and user account creation and editing, form validation, and user avatar upload with image preparation.
+TFA4 extends TFA3 by adding user authentication, password hashing, session management, protected routes, and logout functionality.
 
 ## Features
 
-- Home page
-- About page
-- Customer Accounts listing
-- User Accounts listing
-- Create new customers
-- Edit existing customers
-- Customer form validation
-- Create new users
-- Edit existing users
-- Unique username validation
-- User avatar upload
-- JPG and PNG image validation
-- Maximum avatar upload size of 2 MB
-- Display-ready 300x300 avatar preparation
-- Placeholder display when a user has no avatar
-- MySQL database
-- CodeIgniter Models and Query Builder
+- Home and About pages
+- Customer Accounts listing, creation, and editing
+- User Accounts listing, creation, and editing
+- User avatar upload with JPG/PNG validation and thumbnail preparation
+- MySQL database integration
+- Login using username and password
+- Secure password hashing using `password_hash()`
+- Password verification using `password_verify()`
+- Session-based authentication
+- Authentication filter protecting Customer and User Accounts routes
+- Logout functionality
+
+## Technologies Used
+
+- PHP
+- CodeIgniter 4
+- MySQL
+- HTML and CSS
+- Composer
+- XAMPP
 
 ## Requirements
 
-- PHP
+- PHP compatible with the installed CodeIgniter version
 - Composer
-- CodeIgniter 4
 - MySQL
-- PHP GD extension
-- XAMPP or another PHP/MySQL environment
+- PHP extensions: intl, mbstring, mysqli, gd
 
-## Local Setup
+## Database Setup
 
-1. Clone or download the project.
-2. Start Apache and MySQL.
-3. Create a MySQL database named `famoleras_pos`.
-4. Import `famoleras_pos.sql`.
-5. Configure the database connection in `.env`.
+1. Create a MySQL database named `famoleras_tfa4`.
+2. Import the included `famoleras_tfa4.sql` file.
+3. Configure your `.env` file with your database credentials.
+4. Run the included `TFA4UserSeeder` to create sample users with hashed passwords.
+
+## Local Installation
+
+1. Clone or download this repository.
+2. Open a terminal in the project folder.
+3. Run `composer install`.
+4. Copy the `env` file and rename the copy to `.env`.
+5. Configure the base URL and database settings.
 
 Example:
 
-    database.default.hostname = localhost
-    database.default.database = famoleras_pos
-    database.default.username = root
-    database.default.password =
-    database.default.DBDriver = MySQLi
-    database.default.port = 3306
+```ini
+CI_ENVIRONMENT = development
+app.baseURL = 'http://localhost:8080/'
 
-6. Make sure the PHP GD extension is enabled.
-7. Open a terminal in the project folder.
-8. Run:
+database.default.hostname = localhost
+database.default.database = famoleras_tfa4
+database.default.username = root
+database.default.password =
+database.default.DBDriver = MySQLi
+database.default.port = 3306
+```
 
-    php spark serve
+6. Start MySQL using XAMPP.
+7. Run the sample user seeder on a fresh database:
 
-9. Open:
+```bash
+php spark db:seed TFA4UserSeeder
+```
 
-    http://localhost:8080
+8. Start the CodeIgniter development server:
 
-## Main Routes
+```bash
+php spark serve
+```
 
-- `/` - Home
-- `/about` - About
-- `/customers` - Customer Accounts
-- `/customers/new` - New Customer
-- `/users` - User Accounts
-- `/users/new` - New User
+9. Open `http://localhost:8080/login`.
 
-## Avatar Upload
+## Application Routes
 
-User avatars are uploaded through the User Edit page.
+| URL | Description |
+|---|---|
+| `/` | Home page |
+| `/about` | About page |
+| `/login` | User login |
+| `/customers` | Protected customer listing |
+| `/customers/new` | Protected customer creation |
+| `/customers/edit/{id}` | Protected customer editing |
+| `/users` | Protected user listing |
+| `/users/new` | Protected user creation |
+| `/users/edit/{id}` | Protected user editing |
 
-Accepted formats:
+## Authentication Flow
 
-- JPG/JPEG
-- PNG
+1. The user opens the login page.
+2. The user enters a username and password.
+3. The application retrieves the user from MySQL.
+4. The entered password is checked using `password_verify()`.
+5. Successful authentication regenerates the session ID and stores the user's login information.
+6. The authentication filter restricts Customer Accounts and User Accounts pages to logged-in users.
+7. Logout destroys the session and redirects to the login page.
 
-Maximum file size: 2 MB.
+## Security
 
-Uploaded images are prepared as 300x300 display-ready images and stored in `public/uploads/avatars`. Only the avatar filename is stored in the database.
+- Passwords are stored as hashes rather than plaintext.
+- Protected routes require an authenticated session.
+- Session IDs are regenerated after successful login.
+- Logout uses a POST request.
+- Database credentials are stored in `.env`, which must not be committed to GitHub.
+- Sample passwords must be changed before using the application with real accounts.
+
+## Database Files
+
+`famoleras_tfa4.sql` contains the database structure. `TFA4UserSeeder.php` provides sample users and generates password hashes during setup.
+
+## Project Author
+
+Lance Kevin Famoleras
+
+## Academic Project
+
+IT0049 – Web System Technologies  
+TFA4 – Authentication and Session Management

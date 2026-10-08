@@ -8,12 +8,14 @@ class UserModel extends Model
 {
     protected $table = 'users';
     protected $primaryKey = 'id';
+    protected $returnType = 'array';
 
     protected $allowedFields = [
         'username',
         'full_name',
         'created_at',
-        'avatar'
+        'avatar',
+        'password'
     ];
 
     public function getUsers()
@@ -22,5 +24,10 @@ class UserModel extends Model
             ->select('id, username, full_name, created_at, avatar')
             ->get()
             ->getResultArray();
+    }
+
+    public function findByUsername(string $username)
+    {
+        return $this->where('username', $username)->first();
     }
 }

@@ -8,13 +8,17 @@
 <body>
 
 <nav>
-    <a href="/">Home</a>
-    <a href="/about">About</a>
-    <a href="/customers">Customer Accounts</a>
-    <a href="/users">User Accounts</a>
+    <a href="<?= site_url('/') ?>">Home</a>
+    <a href="<?= site_url('about') ?>">About</a>
+    <a href="<?= site_url('customers') ?>">Customer Accounts</a>
+    <a href="<?= site_url('users') ?>">User Accounts</a>
 </nav>
 
 <div class="container">
+    <form action="<?= site_url('logout') ?>" method="post">
+        <?= csrf_field() ?>
+        <button type="submit">Logout</button>
+    </form>
 
     <h1>Edit User</h1>
 
@@ -27,49 +31,42 @@
     <?php if (!empty($user['avatar'])): ?>
         <p>
             <img
-                src="<?= base_url('uploads/avatars/' . $user['avatar']) ?>"
+                src="<?= base_url('uploads/avatars/' . rawurlencode($user['avatar'])) ?>"
                 alt="Current Avatar"
                 class="avatar-preview">
         </p>
     <?php endif; ?>
 
-    <form
-        action="/users/update/<?= $user['id'] ?>"
-        method="post"
-        enctype="multipart/form-data">
-
+    <form action="<?= site_url('users/update/' . $user['id']) ?>"
+          method="post"
+          enctype="multipart/form-data">
         <?= csrf_field() ?>
 
         <p>
             <label>Username</label><br>
-            <input type="text"
-                   name="username"
-                   value="<?= esc($user['username']) ?>">
+            <input type="text" name="username"
+                   value="<?= esc(old('username', $user['username'])) ?>"
+                   required>
         </p>
 
         <p>
             <label>Full Name</label><br>
-            <input type="text"
-                   name="full_name"
-                   value="<?= esc($user['full_name']) ?>">
+            <input type="text" name="full_name"
+                   value="<?= esc(old('full_name', $user['full_name'])) ?>"
+                   required>
         </p>
 
         <p>
             <label>Profile Picture</label><br>
-
-            <input
-                type="file"
-                name="avatar"
-                accept=".jpg,.jpeg,.png">
-
+            <input type="file"
+                   name="avatar"
+                   accept=".jpg,.jpeg,.png">
             <br>
-            <small>JPG or PNG only. Maximum size: 2 MB.</small>
+            <small>JPG or PNG only. Maximum 2 MB.</small>
         </p>
 
         <button type="submit">Update User</button>
-
     </form>
-
 </div>
 
 </body>

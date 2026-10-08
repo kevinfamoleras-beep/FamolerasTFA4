@@ -8,19 +8,21 @@
 <body>
 
 <nav>
-    <a href="/">Home</a>
-    <a href="/about">About</a>
-    <a href="/customers">Customer Accounts</a>
-    <a href="/users">User Accounts</a>
+    <a href="<?= site_url('/') ?>">Home</a>
+    <a href="<?= site_url('about') ?>">About</a>
+    <a href="<?= site_url('customers') ?>">Customer Accounts</a>
+    <a href="<?= site_url('users') ?>">User Accounts</a>
 </nav>
 
 <div class="container">
+    <form action="<?= site_url('logout') ?>" method="post">
+        <?= csrf_field() ?>
+        <button type="submit">Logout</button>
+    </form>
 
     <h1>User Accounts</h1>
 
-    <p>
-        <a href="/users/new">Add New User</a>
-    </p>
+    <p><a href="<?= site_url('users/new') ?>">Add New User</a></p>
 
     <table>
         <tr>
@@ -35,37 +37,26 @@
             <tr>
                 <td>
                     <?php if (!empty($user['avatar'])): ?>
-
                         <img
-                            src="<?= base_url('uploads/avatars/' . $user['avatar']) ?>"
+                            src="<?= base_url('uploads/avatars/' . rawurlencode($user['avatar'])) ?>"
                             alt="User Avatar"
                             class="avatar">
-
                     <?php else: ?>
-
-                        <div class="avatar-placeholder">
-                            No Image
-                        </div>
-
+                        <div class="avatar-placeholder">No Image</div>
                     <?php endif; ?>
                 </td>
 
                 <td><?= esc($user['username']) ?></td>
-
                 <td><?= esc($user['full_name']) ?></td>
-
                 <td><?= esc($user['created_at']) ?></td>
-
                 <td>
-                    <a href="/users/edit/<?= $user['id'] ?>">
+                    <a href="<?= site_url('users/edit/' . $user['id']) ?>">
                         Edit
                     </a>
                 </td>
             </tr>
         <?php endforeach; ?>
-
     </table>
-
 </div>
 
 </body>
